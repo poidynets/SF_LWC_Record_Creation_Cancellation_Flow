@@ -1,0 +1,3 @@
+<aura:component implements="force:lightningQuickAction">
+    <c:createRequestRecord>Create License Order Page</c:createRequestRecord>
+</aura:component>
