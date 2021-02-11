@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application_Name__c</fullName>
+    <description>We are using this picklist for providing App Name as there is App specific</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Please choose the Proper App Name/Device for which license is needed</inlineHelpText>
+    <label>Requested For</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Application_Name</valueSetName>
+    </valueSet>
+</CustomField>

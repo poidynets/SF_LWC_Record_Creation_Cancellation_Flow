@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>License_Order_During_New_Record_Creation</fullName>
+    <active>true</active>
+    <description>Record type for storing limited amount of the fields that are needed during new Record Creation</description>
+    <label>License Order During New Record Creation</label>
+    <picklistValues>
+        <picklist>Application_Name__c</picklist>
+        <values>
+            <fullName>Hip 7</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hip Pro</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quentry</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Closed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

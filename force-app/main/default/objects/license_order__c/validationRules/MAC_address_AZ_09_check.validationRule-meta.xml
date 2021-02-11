@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MAC_address_AZ_09_check</fullName>
+    <active>false</active>
+    <description>We are using tis rule to accept only a-z, A-Z, 0-9</description>
+    <errorConditionFormula>NOT(REGEX( MAC_address__c, &quot;[a-zA-Z0-9]&quot;))</errorConditionFormula>
+    <errorDisplayField>MAC_address__c</errorDisplayField>
+    <errorMessage>It not possible to provide special characters in MAC address field.
+An example of the proper MAC address:
+ABC0123456789</errorMessage>
+</ValidationRule>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <assignments>
+        <description>Assigning &quot;Licensed&quot; on Record and &quot;Closed&quot; Status</description>
+        <name>Set_to_check_Licensed_and_Closed</name>
+        <label>Set to check &quot;Licensed&quot; and &quot;Closed&quot;</label>
+        <locationX>176</locationX>
+        <locationY>373</locationY>
+        <assignmentItems>
+            <assignToReference>Get_Related_to_License_Order.Licensed__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Related_to_License_Order.Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Closed</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Order_License_Record</targetReference>
+        </connector>
+    </assignments>
+    <description>Flow to Update License Order Object Record - Check &quot;Licensed&quot; and &quot;Closed&quot; Status if License Record Status changed to Closed</description>
+    <interviewLabel>License Order - Check &quot;Licensed&quot; and &quot;Closed&quot; Status if License Record Status changed to Closed {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>License Order - Check Licensed and Closed Status if License Record Status changed to Closed</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>We are retrieving Order values</description>
+        <name>Get_Related_to_License_Order</name>
+        <label>Get Related to License Order</label>
+        <locationX>176</locationX>
+        <locationY>253</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Set_to_check_Licensed_and_Closed</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Request__r.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>license_order__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>We are using this step to Update Values on Record</description>
+        <name>Update_Order_License_Record</name>
+        <label>Update Order License Record</label>
+        <locationX>176</locationX>
+        <locationY>493</locationY>
+        <inputReference>Get_Related_to_License_Order</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Related_to_License_Order</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Closed</stringValue>
+            </value>
+        </filters>
+        <object>Licence__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

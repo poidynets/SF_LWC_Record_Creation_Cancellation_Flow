@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>We are using this step to Send Cancellation Request to Patrner</description>
+        <name>Send_Cancellation_Request_to_Patrner_0</name>
+        <label>Send Cancellation Request to Patrner</label>
+        <locationX>314</locationX>
+        <locationY>1358</locationY>
+        <actionName>Licence__c.License_Request_Cancellation_Test</actionName>
+        <actionType>emailAlert</actionType>
+        <connector>
+            <targetReference>Status_is_Cancelled</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Change_Status_Back_due_to_Error</targetReference>
+        </faultConnector>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>Get_Licence_Records.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>50.0</apiVersion>
+    <assignments>
+        <description>We are using this step for Assigning new Filed values to Request record</description>
+        <name>Assign_Cancelled_Status</name>
+        <label>Assign Cancelled Status</label>
+        <locationX>578</locationX>
+        <locationY>758</locationY>
+        <assignmentItems>
+            <assignToReference>Get_Request_Record_0.Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Cancelled</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Request_Record_0.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Request_Record_0.Licensed__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_Cancelled_Status_to_Related_License_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>We are using this step for Assigning new Filed values to Request record</description>
+        <name>Assign_Cancelled_Status_to_Related_License_Record</name>
+        <label>Assign Cancelled Status to Related License Record</label>
+        <locationX>578</locationX>
+        <locationY>878</locationY>
+        <assignmentItems>
+            <assignToReference>Get_Licence_Records.Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Cancelled</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Licence_Records.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Licence_Records.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Request_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>We are using this step tp Change Status Back due to Error</description>
+        <name>Change_Status_Back_due_to_Error</name>
+        <label>Change Status Back due to Error</label>
+        <locationX>578</locationX>
+        <locationY>1478</locationY>
+        <assignmentItems>
+            <assignToReference>Get_Request_Record_0.Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>RequestStatus</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Request_Record_0.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Request_Back_to_Original_Status</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Checking is  the Record was already Cancelled</description>
+        <name>Record_is_Already_Cancelled</name>
+        <label>Record is Already Cancelled</label>
+        <locationX>314</locationX>
+        <locationY>518</locationY>
+        <defaultConnector>
+            <targetReference>Record_Cancellation_Welcome_Screen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Can be Cancelled</defaultConnectorLabel>
+        <rules>
+            <name>Already_Cancelled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Request_Record_0.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Cancelled</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Record_is_Already_Cancelled_Screen</targetReference>
+            </connector>
+            <label>Already Cancelled</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>We are using this step to check the current Record Status</description>
+        <name>Status_changed_to_Cancelled</name>
+        <label>Status changed to Cancelled?</label>
+        <locationX>578</locationX>
+        <locationY>1238</locationY>
+        <defaultConnector>
+            <targetReference>Status_Not_Changed</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Cancelled Status</defaultConnectorLabel>
+        <rules>
+            <name>Cancelled_Status</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Request_Record_0.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Cancelled</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Cancellation_Request_to_Patrner_0</targetReference>
+            </connector>
+            <label>Cancelled Status</label>
+        </rules>
+    </decisions>
+    <description>We are using this flow to Cancel Request</description>
+    <interviewLabel>Cancel Request {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Cancel Request</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>retrieving License Values to use them later on</description>
+        <name>Get_Licence_Records</name>
+        <label>Get Licence Records</label>
+        <locationX>314</locationX>
+        <locationY>398</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Record_is_Already_Cancelled</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Screen_0_0_0</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Request__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Licence__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>retrieving Request values</description>
+        <name>Get_Request_Record_0</name>
+        <label>Get Request Record</label>
+        <locationX>314</locationX>
+        <locationY>158</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Request_Status</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Screen_0</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>license_order__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>retrieving Request Status to use it later on</description>
+        <name>Get_Request_Status</name>
+        <label>Get Request Status</label>
+        <locationX>314</locationX>
+        <locationY>278</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Licence_Records</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Screen_0_0</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <object>license_order__c</object>
+        <outputAssignments>
+            <assignToReference>RequestStatus</assignToReference>
+            <field>Status__c</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordUpdates>
+        <description>Using for Updating License Record</description>
+        <name>Update_License_Record</name>
+        <label>Update License Record</label>
+        <locationX>578</locationX>
+        <locationY>1118</locationY>
+        <connector>
+            <targetReference>Status_changed_to_Cancelled</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>displayText3_0_0</targetReference>
+        </faultConnector>
+        <inputReference>Get_Licence_Records</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>We are using this step to Update Request Back to Original Status</description>
+        <name>Update_Request_Back_to_Original_Status</name>
+        <label>Update Request Back to Original Status</label>
+        <locationX>578</locationX>
+        <locationY>1598</locationY>
+        <connector>
+            <targetReference>displayText3_0</targetReference>
+        </connector>
+        <inputReference>Get_Request_Record_0</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Using for Updating Request Record</description>
+        <name>Update_Request_Record</name>
+        <label>Update Request Record</label>
+        <locationX>578</locationX>
+        <locationY>998</locationY>
+        <connector>
+            <targetReference>Update_License_Record</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>displayText3</targetReference>
+        </faultConnector>
+        <inputReference>Get_Request_Record_0</inputReference>
+    </recordUpdates>
+    <screens>
+        <description>Showing Error message</description>
+        <name>displayText3</name>
+        <label>Error Screen</label>
+        <locationX>1370</locationX>
+        <locationY>1118</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>errorDisplayText</name>
+            <fieldText>&lt;p&gt;{!ErrorTextTemplate}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>Showing Error message</description>
+        <name>displayText3_0</name>
+        <label>Error Screen</label>
+        <locationX>578</locationX>
+        <locationY>1718</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>errorDisplayText_0</name>
+            <fieldText>&lt;p&gt;{!ErrorTextTemplate}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>Showing Error message</description>
+        <name>displayText3_0_0</name>
+        <label>Error Screen</label>
+        <locationX>1106</locationX>
+        <locationY>1238</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>errorDisplayText_0_0</name>
+            <fieldText>&lt;p&gt;{!ErrorTextTemplate}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>This screen opening as a result of Faulty run in case if there happens an issue during Record Creation, Retrieving Record Values, ets</description>
+        <name>Error_Screen_0</name>
+        <label>Error Screen</label>
+        <locationX>2162</locationX>
+        <locationY>278</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>displayText2_0</name>
+            <fieldText>&lt;p&gt;{!ErrorTextTemplate}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>This screen opening as a result of Faulty run in case if there happens an issue during Record Creation, Retrieving Record Values, ets</description>
+        <name>Error_Screen_0_0</name>
+        <label>Error Screen</label>
+        <locationX>1898</locationX>
+        <locationY>398</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>displayText2_0_0</name>
+            <fieldText>&lt;p&gt;{!ErrorTextTemplate}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>This screen opening as a result of Faulty run in case if there happens an issue during Record Creation, Retrieving Record Values, ets</description>
+        <name>Error_Screen_0_0_0</name>
+        <label>Error Screen</label>
+        <locationX>1634</locationX>
+        <locationY>518</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>displayText2_0_0_0</name>
+            <fieldText>&lt;p&gt;{!ErrorTextTemplate}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>This screen confirms action start and providing User general information.</description>
+        <name>Record_Cancellation_Welcome_Screen</name>
+        <label>Record Cancellation Welcome Screen</label>
+        <locationX>578</locationX>
+        <locationY>638</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Assign_Cancelled_Status</targetReference>
+        </connector>
+        <fields>
+            <name>displayText1</name>
+            <fieldText>&lt;p&gt;{!CancelRecordWelcomeScreen}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>This screen informs user that Record is Already in &quot;Cancelled&quot; Stage</description>
+        <name>Record_is_Already_Cancelled_Screen</name>
+        <label>Record is Already Cancelled Screen</label>
+        <locationX>50</locationX>
+        <locationY>638</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>displayText4</name>
+            <fieldText>&lt;p&gt;{!RecordIsAlreadyCancelledScreen}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>Screen to show message regarding Record Status</description>
+        <name>Status_is_Cancelled</name>
+        <label>Status is Cancelled</label>
+        <locationX>314</locationX>
+        <locationY>1478</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>cancelled_status_message</name>
+            <fieldText>&lt;p&gt;{!StatusIsCancelledTextTemplate}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <description>Screen to show message regarding Record Status</description>
+        <name>Status_Not_Changed</name>
+        <label>Status Not Changed</label>
+        <locationX>842</locationX>
+        <locationY>1358</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>not_cancelled_status_screen</name>
+            <fieldText>&lt;p&gt;{!StatusIsNotCancelledTextTemplate}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Request_Record_0</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <description>This text template is using to provide user message and get user confirmation of Beginning Record Cancellation</description>
+        <name>CancelRecordWelcomeScreen</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;You are going to &lt;b&gt;Cancel&lt;/b&gt; &lt;b&gt;Request&lt;/b&gt;. Please make sure that this is the proper action and then click &lt;b&gt;Next&lt;/b&gt;.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;If you don&apos;t want to Cancel the Request, just close the window without clicking next.&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <description>This text template is using to provide user message about error</description>
+        <name>ErrorTextTemplate</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;b&gt;Oops, something went wrong.&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;{!$Flow.FaultMessage}&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <description>Screen for informing user that Record is already cancelled</description>
+        <name>RecordIsAlreadyCancelledScreen</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Record is Already Cancelled.&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <description>This text template is using to provide user message regarding Status Change</description>
+        <name>StatusIsCancelledTextTemplate</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Record Has Been Cancelled, we have sent a Cancellation Message Request to our Partners.&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <description>This text template is using to provide user message regarding Status Change</description>
+        <name>StatusIsNotCancelledTextTemplate</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Status Has Been Not Changed to Cancelled.&lt;/p&gt;</text>
+    </textTemplates>
+    <variables>
+        <description>We are using this variable to store Original Record Id</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Storing Request Status</description>
+        <name>RequestStatus</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

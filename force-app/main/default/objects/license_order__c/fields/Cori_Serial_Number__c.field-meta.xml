@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cori_Serial_Number__c</fullName>
+    <description>Field for storing Cori Serial Number</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Device Serial Number (Usually starts from SN, DV, etc.)</inlineHelpText>
+    <label>Cori Serial Number</label>
+    <length>30</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
