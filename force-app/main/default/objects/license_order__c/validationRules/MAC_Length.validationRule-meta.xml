@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MAC_Length</fullName>
+    <active>true</active>
+    <description>We are using this rule to limit NAC address length</description>
+    <errorConditionFormula>LEN( MAC_address__c ) &gt; 17</errorConditionFormula>
+    <errorDisplayField>MAC_address__c</errorDisplayField>
+    <errorMessage>MAC address should not exceed 17 characters.</errorMessage>
+</ValidationRule>

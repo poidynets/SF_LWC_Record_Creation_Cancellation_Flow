@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Editing_Installation_Key_If_MAC_added</fullName>
+    <active>true</active>
+    <description>Restricting possibility to provide License Key if Ticket is In progress, MAC address is in place</description>
+    <errorConditionFormula>AND(ISCHANGED(Installation_Key__c), NOT(ISBLANK(MAC_address__c)), NOT(ISCHANGED(MAC_address__c)))</errorConditionFormula>
+    <errorDisplayField>Installation_Key__c</errorDisplayField>
+    <errorMessage>You can&apos;t Provide Installation Key if MAC address is already added to the ticket.
+Please cancel request if needed and create a new one.</errorMessage>
+</ValidationRule>

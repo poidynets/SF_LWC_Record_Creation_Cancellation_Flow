@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>50.0</apiVersion>
+    <description>Flow for creating License Record when Parent Order Created</description>
+    <interviewLabel>License Order - Create License Record when Order Created {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>License Order - Create License Record when Order Created</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Creating Record</description>
+        <name>Create_License</name>
+        <label>Create License</label>
+        <locationX>176</locationX>
+        <locationY>373</locationY>
+        <inputAssignments>
+            <field>Installation_Key__c</field>
+            <value>
+                <elementReference>Get_Order_Details.Installation_Key__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>MAC_address__c</field>
+            <value>
+                <elementReference>Get_Order_Details.MAC_address__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Request__c</field>
+            <value>
+                <elementReference>Get_Order_Details.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Used__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>Licence__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <description>Retrieving Record values</description>
+        <name>Get_Order_Details</name>
+        <label>Get Order Details</label>
+        <locationX>176</locationX>
+        <locationY>253</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Create_License</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>license_order__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Order_Details</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Order_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>License Order</stringValue>
+            </value>
+        </filters>
+        <object>license_order__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

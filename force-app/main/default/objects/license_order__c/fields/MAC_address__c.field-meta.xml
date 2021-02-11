@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MAC_address__c</fullName>
+    <description>Field for saving MAC address info</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This field is for providing device MAC address</inlineHelpText>
+    <label>MAC address</label>
+    <length>30</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
