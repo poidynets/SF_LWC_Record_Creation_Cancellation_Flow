@@ -1,17 +1,18 @@
 <template>
    <lightning-record-edit-form object-api-name={licenseOrderObject} onsuccess={handleAccountCreated}>
-       <lightning-messages></lightning-messages>
        <div class="slds-grid">
-           <div class="slds-col slds-size_1-of-2">
-               <lightning-input-field field-name={applicationNameField}></lightning-input-field>
-               <lightning-input-field field-name={accountNameField}></lightning-input-field>
-               <lightning-input-field field-name={contactNameField}></lightning-input-field>
-               <lightning-input-field field-name={notesField}></lightning-input-field>
+         <template if:true={showFields}>
+            <div class="slds-col slds-size_1-of-2">
+               <lightning-input-field field-name={applicationNameField} onchange={handleApplictionNameChange}></lightning-input-field>
+               <lightning-input-field field-name={accountNameField} onchange={handleAccountNameChange}></lightning-input-field>
+               <lightning-input-field field-name={contactNameField} onchange={handleContactNameChange}></lightning-input-field>
+               <lightning-input-field field-name={notesField} onchange={handleNotesChange}></lightning-input-field>
            </div>
-           <div class="slds-col slds-size_1-of-2">
-               <!-- More lightning-input-field components here -->
-           </div>
+           <lightning-button variant="brand" label="Create License Order Record" onclick={createRequestRecord}></lightning-button>
+         </template>
+         <template if:false={showFields}>
+            <lightning-button variant="brand" label="Create New" onclick={toggleFields}></lightning-button>
+         </template>
         </div>
-       <lightning-button type="submit" variant="brand" label="Create License Order Record"></lightning-button>
    </lightning-record-edit-form>
 </template>
