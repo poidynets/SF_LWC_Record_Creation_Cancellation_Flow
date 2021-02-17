@@ -1,8 +1,17 @@
 <template>
-   Record Creation Page 
-<div style="width: 100%; height: 70%; margin-bottom: 1%; background-color:'red'">
-   Red Square.
-</div>
-<button class="slds-button slds-button_brand">Move to Done</button>
-
+   <lightning-record-edit-form object-api-name={licenseOrderObject} onsuccess={handleAccountCreated}>
+       <lightning-messages></lightning-messages>
+       <div class="slds-grid">
+           <div class="slds-col slds-size_1-of-2">
+               <lightning-input-field field-name={applicationNameField}></lightning-input-field>
+               <lightning-input-field field-name={accountNameField}></lightning-input-field>
+               <lightning-input-field field-name={contactNameField}></lightning-input-field>
+               <lightning-input-field field-name={notesField}></lightning-input-field>
+           </div>
+           <div class="slds-col slds-size_1-of-2">
+               <!-- More lightning-input-field components here -->
+           </div>
+        </div>
+       <lightning-button type="submit" variant="brand" label="Create License Order Record"></lightning-button>
+   </lightning-record-edit-form>
 </template>
