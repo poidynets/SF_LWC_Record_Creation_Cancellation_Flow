@@ -8,7 +8,7 @@
                <lightning-input-field field-name={contactNameField} onchange={handleContactNameChange}></lightning-input-field>
                <lightning-input-field field-name={notesField} onchange={handleNotesChange}></lightning-input-field>
            </div>
-           <lightning-button variant="brand" label="Create License Order Record" onclick={createRequestRecord}></lightning-button>
+           <lightning-button variant="brand" label="Create License Order" onclick={createRequestRecord}></lightning-button>
          </template>
          <template if:false={showFields}>
             <lightning-button variant="brand" label="Create New" onclick={toggleFields}></lightning-button>
